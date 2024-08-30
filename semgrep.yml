@@ -1,0 +1,90 @@
+rules:
+  - id: kotlin-sql-injection
+    patterns:
+      - pattern: |
+          database.query(#...)
+    message: "Potencial SQL Injection detectado."
+    languages: [kotlin]
+    severity: ERROR
+
+  - id: kotlin-xss
+    patterns:
+      - pattern: |
+          webView.loadData(#... , #... , #...)
+    message: "Potencial XSS detectado."
+    languages: [kotlin]
+    severity: ERROR
+
+  - id: kotlin-hardcoded-credentials
+    patterns:
+      - pattern: |
+          val $SECRET = "..."
+    message: "Credenciais hardcoded detectadas."
+    languages: [kotlin]
+    severity: ERROR
+
+  - id: kotlin-open-redirect
+    patterns:
+      - pattern: |
+          response.sendRedirect(#...)
+    message: "Potencial Open Redirect detectado."
+    languages: [kotlin]
+    severity: WARNING
+
+  - id: kotlin-insecure-random
+    patterns:
+      - pattern: |
+          Random(#...)
+    message: "Uso de randomização insegura detectado. Considere usar SecureRandom."
+    languages: [kotlin]
+    severity: WARNING
+
+  - id: kotlin-weak-hash
+    patterns:
+      - pattern: |
+          MessageDigest.getInstance("MD5")
+      - pattern: |
+          MessageDigest.getInstance("SHA-1")
+    message: "Uso de função hash insegura (MD5 ou SHA-1) detectado."
+    languages: [kotlin]
+    severity: ERROR
+
+  - id: kotlin-insecure-http
+    patterns:
+      - pattern: |
+          URL("http://#...")
+    message: "Uso de HTTP inseguro detectado. Considere usar HTTPS."
+    languages: [kotlin]
+    severity: ERROR
+
+  - id: kotlin-insecure-ssl-socket
+    patterns:
+      - pattern: |
+          SSLContext.getInstance("SSL")
+    message: "Uso de SSLContext inseguro detectado. Considere usar TLS."
+    languages: [kotlin]
+    severity: WARNING
+
+  - id: kotlin-deserialization-vulnerability
+    patterns:
+      - pattern: |
+          ObjectInputStream(#...)
+    message: "Potencial vulnerabilidade de desserialização detectada."
+    languages: [kotlin]
+    severity: ERROR
+
+  - id: kotlin-broken-authentication
+    patterns:
+      - pattern: |
+          HttpServletRequest.getParameter("password")
+    message: "Uso potencialmente inseguro de autenticação baseada em parâmetros de solicitação."
+    languages: [kotlin]
+    severity: ERROR
+
+  - id: kotlin-command-injection
+    patterns:
+      - pattern: |
+          Runtime.getRuntime().exec(#...)
+    message: "Potencial Command Injection detectado."
+    languages: [kotlin]
+    severity: ERROR
