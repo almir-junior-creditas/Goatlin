@@ -32,10 +32,11 @@ jobs:
         run: |
           semgrep --config ./semgrep.yml --json > semgrep_results.json
 
+  
       - name: Create GitHub Issues for Semgrep Findings
         if: steps.semgrep_scan.outcome == 'failure'
-        uses: JasonEtco/create-an-issue@v2
-        with:
-          filename: semgrep_results.json
+        run: |
+          python create_issues.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
