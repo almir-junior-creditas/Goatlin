@@ -32,6 +32,12 @@ jobs:
         run: |
           semgrep --config ./semgrep.yml --json > semgrep_results.json
 
+      - name: Display Semgrep Results
+        if: failure() # This step runs only if Semgrep found issues
+        run: |
+          echo "Semgrep found vulnerabilities:"
+          semgrep --config ./semgrep.yml --json | jq .
+
   
       - name: Create GitHub Issues for Semgrep Findings
         if: steps.semgrep_scan.outcome == 'failure'
